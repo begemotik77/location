@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User Location</title>
+</head>
+<body>
+    <h1>Getting Your Location...</h1>
+    <script>
+        function sendLocation(latitude, longitude) {
+            const url = 'https://yourserver.com/location'; // փոխեք սա ձեր սերվերի URL-ով
+            const data = { latitude: latitude, longitude: longitude };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    sendLocation(latitude, longitude);
+                }, (error) => {
+                    console.error('Error getting location', error);
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        }
+
+        getLocation();
+    </script>
+</body>
+</html>
